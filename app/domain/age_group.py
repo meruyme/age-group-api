@@ -1,9 +1,9 @@
-from typing import Optional, Iterator, List
+from typing import List
 
 from bson import ObjectId
 from fastapi.exceptions import HTTPException
 from fastapi import status
-from pydantic import parse_obj_as
+from pydantic import TypeAdapter
 from pymongo.synchronous.database import Database
 
 from app.schemas.age_group import AgeGroupRead, AgeGroupCreate
@@ -42,7 +42,7 @@ class AgeGroupDomain:
             filters = filter_query.model_dump(exclude_none=True) or None
 
         age_groups = self.collection.find(filter=filters)
-        return parse_obj_as(List[AgeGroupRead], age_groups)
+        return TypeAdapter(List[AgeGroupRead]).validate_python(age_groups)
 
     def delete(self, age_group_id: str):
         age_group = self.collection.find_one_and_delete({"_id": ObjectId(age_group_id)})
