@@ -1,5 +1,5 @@
 [project]
-name = "template-api"
+name = "age-group-api"
 version = "1"
 requires-python = ">=3.9"
 dependencies = [
