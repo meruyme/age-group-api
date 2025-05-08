@@ -45,7 +45,12 @@ class AgeGroupDomain:
         return parse_obj_as(List[AgeGroupRead], age_groups)
 
     def delete(self, age_group_id: str):
-        self.collection.find_one_and_delete({"_id": ObjectId(age_group_id)})
+        age_group = self.collection.find_one_and_delete({"_id": ObjectId(age_group_id)})
+
+        if not age_group:
+            raise HTTPException(
+                detail="Age group not found.", status_code=status.HTTP_404_NOT_FOUND,
+            )
 
     def __is_duplicated_age_group(self, age_group_payload: AgeGroupCreate) -> bool:
         all_age_groups = self.list()
