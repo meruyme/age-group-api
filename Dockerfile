@@ -11,4 +11,4 @@ RUN python3 -m venv /code/venv
 COPY ./requirements.txt /code/
 RUN pip3 install -r requirements.txt
 
-CMD ["fastapi", "run", "app/main.py", "--port", "8000"]
+CMD ["fastapi", "run", "app/main.py", "--port", "8001"]
