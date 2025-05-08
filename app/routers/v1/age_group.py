@@ -6,10 +6,12 @@ from app.dependencies import get_age_group_service
 from app.schemas.age_group import AgeGroupRead, AgeGroupCreate
 from app.schemas.filters import AgeGroupFilter
 from app.services.age_group import AgeGroupService
+from auth import get_current_username
 
 router = APIRouter(
     prefix="/age-groups",
     tags=["Age Group API V1"],
+    dependencies=[Depends(get_current_username)]
 )
 
 
