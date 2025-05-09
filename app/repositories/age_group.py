@@ -28,6 +28,17 @@ class AgeGroupRepository:
         return AgeGroupRead(**age_group)
 
     def list(self, filter_query: AgeGroupFilter = None) -> List[AgeGroupRead]:
+        filters = self.__build_filter(filter_query)
+
+        age_groups = self.collection.find(filter=filters)
+        return TypeAdapter(List[AgeGroupRead]).validate_python(age_groups)
+
+    def delete(self, age_group_id: str) -> bool:
+        age_group = self.collection.find_one_and_delete({"_id": ObjectId(age_group_id)})
+        return bool(age_group)
+
+    @staticmethod
+    def __build_filter(filter_query: AgeGroupFilter) -> dict:
         filters = None
         if filter_query:
             if filter_query.age is not None:
@@ -37,10 +48,4 @@ class AgeGroupRepository:
                         {"maximum_age": {"$gte": filter_query.age}},
                     ]
                 }
-
-        age_groups = self.collection.find(filter=filters)
-        return TypeAdapter(List[AgeGroupRead]).validate_python(age_groups)
-
-    def delete(self, age_group_id: str) -> bool:
-        age_group = self.collection.find_one_and_delete({"_id": ObjectId(age_group_id)})
-        return bool(age_group)
+        return filters
