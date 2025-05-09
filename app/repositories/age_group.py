@@ -30,7 +30,13 @@ class AgeGroupRepository:
     def list(self, filter_query: AgeGroupFilter = None) -> List[AgeGroupRead]:
         filters = None
         if filter_query:
-            filters = filter_query.model_dump(exclude_none=True) or None
+            if filter_query.age is not None:
+                filters = {
+                    "$and": [
+                        {"minimum_age": {"$lte": filter_query.age}},
+                        {"maximum_age": {"$gte": filter_query.age}},
+                    ]
+                }
 
         age_groups = self.collection.find(filter=filters)
         return TypeAdapter(List[AgeGroupRead]).validate_python(age_groups)
