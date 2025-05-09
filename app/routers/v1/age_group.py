@@ -49,5 +49,5 @@ def list_age_group(
     "/{age_group_id}/",
     status_code=status.HTTP_204_NO_CONTENT,
 )
-def list_age_group(age_group_id: str, service: AgeGroupService = Depends(get_age_group_service)):
+def delete_age_group(age_group_id: str, service: AgeGroupService = Depends(get_age_group_service)):
     service.delete(age_group_id)
