@@ -1,11 +1,11 @@
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, model_validator
 
-from app.fields import PyObjectId
+from app.fields import PyObjectId, Age
 
 
 class AgeGroupBase(BaseModel):
-    maximum_age: int = Field(ge=0, lt=150)
-    minimum_age: int = Field(ge=0, lt=150)
+    maximum_age: Age
+    minimum_age: Age
 
 
 class AgeGroupCreate(AgeGroupBase):
@@ -18,4 +18,4 @@ class AgeGroupCreate(AgeGroupBase):
 
 
 class AgeGroupRead(AgeGroupBase):
-    id: PyObjectId = Field(alias="_id")
+    id: PyObjectId

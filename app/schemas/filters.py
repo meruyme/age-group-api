@@ -1,7 +1,9 @@
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+
+from app.fields import Age
 
 
 class AgeGroupFilter(BaseModel):
-    maximum_age: Optional[int] = Field(ge=0, lt=150, default=None)
-    minimum_age: Optional[int] = Field(ge=0, lt=150, default=None)
+    maximum_age: Optional[Age] = None
+    minimum_age: Optional[Age] = None
