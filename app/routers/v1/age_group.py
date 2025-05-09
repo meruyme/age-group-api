@@ -51,4 +51,3 @@ def list_age_group(
 )
 def list_age_group(age_group_id: str, service: AgeGroupService = Depends(get_age_group_service)):
     service.delete(age_group_id)
-    return
