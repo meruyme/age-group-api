@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     api_host: str = "0.0.0.0"
     api_port: int
     prefix: str = "/api"
+    credentials_path: str = "credentials.json"
 
     mongo_host: str
     mongo_port: int
