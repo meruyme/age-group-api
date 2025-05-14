@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  api:
+  age-group-api:
     container_name: age-group-api
     build:
       context: ./
