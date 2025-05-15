@@ -1,13 +1,8 @@
 import pytest
-import os
 from fastapi.testclient import TestClient
 
-from app.core.constants import Environment
 from app.main import app
 from app.core.db import DatabaseProvider
-
-
-os.environ["ENVIRONMENT"] = Environment.TEST
 
 
 def pytest_configure():
@@ -23,8 +18,17 @@ def client():
 
 
 @pytest.fixture(autouse=True)
-def setup_test_database():
-    db = DatabaseProvider.get_database()
+def setup_test_database(monkeypatch):
+    def database():
+        return pytest.db
+
+    monkeypatch.setattr(
+        DatabaseProvider,
+        "get_database",
+        database,
+    )
+
+    db = pytest.db
     db.drop_collection("age_groups")
     yield
     db.drop_collection("age_groups")
